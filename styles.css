@@ -1,0 +1,11 @@
+.center {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.board {
+  border: 1px solid black;
+  width: 800px;
+  height: 800px;
+}
