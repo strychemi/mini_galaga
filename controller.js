@@ -9,6 +9,10 @@ var controller = {
 
   getAvatar: function() {
     return model.avatar;
+  },
+
+  moveAvatar: function(dir) {
+    model.avatar.move(dir);
   }
 };
 
