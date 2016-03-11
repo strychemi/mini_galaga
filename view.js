@@ -6,39 +6,42 @@ var view = {
 
   // Initialize game loop
   init: function() {
-    var previousTime = 0,
-      INTERVAL = 15;
+    var INTERVAL = 30;
+    // Attach eventListener for hitting spacebar for firing
+    view.fireListener();
 
     window.onload = function() {
       var canvas = $("#canvas")[0],
         c = canvas.getContext("2d");
-
       // THE GAME LOOP BABY
       setInterval(function() {
-        var currentTime = new Date().getTime().timeElapsed;
-        if (previousTime === 0) previousTime = currentTime;
-        timeElapsed = currentTime - previousTime;
         view.update();
-        view.render(canvas, timeElapsed, currentTime);
+        view.renderAvatar(canvas);
+        view.renderBullets(canvas);
       }, INTERVAL);
     };
   },
 
   // Renders the game board state on canvas
-  render: function(canvas, timeElapsed, currentTime) {
+  renderAvatar: function(canvas) {
     // supercharge canvas element and clean it out
     var c = canvas.getContext("2d");
     view.clearCanvas(canvas);
 
     // retrieve avatar object from controller
     var avatar = controller.getAvatar();
-
     // render avatar
-    // c.beginPath();
-    // c.rect(avatar.x, avatar.y, avatar.size, avatar.size);
-    // c.fillStyle = "red";
-    // c.fill();
     avatar.draw(c);
+  },
+
+  renderBullets: function(canvas) {
+    var c = canvas.getContext("2d");
+    // retrieve bullet objects from controller
+    var bullets = controller.getBullets();
+    // render bullets
+    for (var b in bullets) {
+      bullets[b].draw(c);
+    }
   },
 
   // Cleans out the current canvas
@@ -50,26 +53,22 @@ var view = {
     c.fill();
   },
 
-  // Event handler implmeneted via key polling
+  // Update movement based on key polling (so multiple keys can be pressed)
   update: function() {
     var LEFT = 97, UP = 119, RIGHT = 100, DOWN = 115; // WASD keys
-    // var LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40; // Arrow keys
-
-    // $(document).on("keypress", function(e) {
-    //   if (e.keyCode == LEFT) controller.moveAvatar(LEFT);
-    //   if (e.keyCode == RIGHT) controller.moveAvatar(RIGHT);
-    //   if (e.keyCode == UP) controller.moveAvatar(UP);
-    //   if (e.keyCode == DOWN) controller.moveAvatar(DOWN);
-    // });
-
-    // Implementing key polling
     // Avatar movement
-    if (key.isPressed("A")) controller.moveAvatar(LEFT);
-    if (key.isPressed("D")) controller.moveAvatar(RIGHT);
-    if (key.isPressed("W")) controller.moveAvatar(UP);
-    if (key.isPressed("S")) controller.moveAvatar(DOWN);
-    // Avatar launching fireball
-    if (key.isPressed("space")) controller.avatarFireBullet();
+    if (key.isPressed("A")) controller.update(LEFT);
+    if (key.isPressed("D")) controller.update(RIGHT);
+    if (key.isPressed("W")) controller.update(UP);
+    if (key.isPressed("S")) controller.update(DOWN);
 
+    if (controller.getBullets) controller.update();
+  },
+
+  fireListener: function() {
+    // Avatar launching fireball on hitting spacebar
+    $(document).on("keydown", function(e) {
+      if (e.keyCode == 32) controller.avatarFire();
+    });
   }
 };

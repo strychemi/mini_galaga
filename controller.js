@@ -10,14 +10,20 @@ var controller = {
     return model.avatar;
   },
 
-  // Moves the avatar in the new "dir"
-  moveAvatar: function(dir) {
-    model.avatar.move(dir);
+  // Returns an array of bullet objects
+  getBullets: function() {
+    return model.bullets;
   },
 
-  // Makes the avatar launch a bullet
-  avatarFireBullet: function() {
-    model.avatar.fire();
+  // Moves the avatar in the new "dir"
+  update: function(dir) {
+    model.avatar.move(dir);
+    model.moveBullets();
+  },
+
+  // Makes the avatar launch a new bullet
+  avatarFire: function() {
+    model.avatarFire();
   }
 };
 

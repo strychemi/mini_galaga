@@ -3,7 +3,21 @@ var model = {
   score: 0,
   highScore: 0,
   totalEnemies: 0,
-  avatar: new Avatar()
+  avatar: new Avatar(),
+  bullets: [],
+
+  // Creates a new bullet and adds it to the bullets array
+  avatarFire: function() {
+    model.bullets.push(new Bullet());
+  },
+
+  // Moves all bullets up
+  moveBullets: function() {
+    var allBullets = model.bullets;
+    for (var b in allBullets) {
+      allBullets[b].y -= allBullets[b].dy;
+    }
+  }
 };
 
 function Avatar() {
@@ -16,8 +30,8 @@ function Avatar() {
   this.y = view.max - 50;
 
   // Movement Speed or step size
-  this.dx = 5;
-  this.dy = 5;
+  this.dx = 10;
+  this.dy = 10;
 
   // Size and Bitmap image
   this.size = 50;
@@ -41,27 +55,25 @@ function Avatar() {
     this.x = Math.max(0, Math.min(this.x, view.max - this.size));
     this.y = Math.max(0, Math.min(this.y, view.max - this.size));
   };
-
-  this.fire = function() {
-    
-  };
 }
 
 function Bullet() {
   // Starting position
-  this.x = 0;
-  this.y = 0;
+  this.x = model.avatar.x + 20;
+  this.y = model.avatar.y;
 
   // Movement Speed or step size
-  this.dx = 10;
+  this.dx = 0;
   this.dy = 10;
 
   // Size and Bitmap image
-  this.size = 5;
+  this.sizeX = 10;
+  this.sizeY = 20;
   this.image = new Image();
-  this.src = "img/fireball.png";
+  this.image.src = "images/fireball.png";
 
+  // Renders the bullet image on the passed context, which should be a canvas
   this.draw = function(context) {
-    context.drawImage(this.image, this.x, this.y, this.size, this.size);
+    context.drawImage(this.image, this.x, this.y, this.sizeX, this.sizeY);
   };
 }
