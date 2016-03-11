@@ -6,13 +6,26 @@ var model = {
 };
 
 function Avatar() {
+  // Avatar stats
   this.hp = 100;
   this.damage = 1;
-  this.x = 0;
-  this.y = 0;
+
+  // Position
+  this.x = view.max / 2;
+  this.y = view.max - 50;
+
+  // Movement Speed
   this.dx = 5;
   this.dy = 5;
-  this.size = 25;
+
+  //Size and Bitmap image
+  this.size = 50;
+  this.image = new Image();
+  this.image.src = "images/charizard.jpg";
+
+  this.draw = function(context) {
+    context.drawImage(this.image, this.x, this.y, this.size, this.size);
+  };
 
   this.move = function(dir) {
     var LEFT = 97, UP = 119, RIGHT = 100, DOWN = 115;

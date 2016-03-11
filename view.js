@@ -29,10 +29,11 @@ var view = {
     var avatar = controller.getAvatar();
 
     // render avatar
-    c.beginPath();
-    c.rect(avatar.x, avatar.y, avatar.size, avatar.size);
-    c.fillStyle = "red";
-    c.fill();
+    // c.beginPath();
+    // c.rect(avatar.x, avatar.y, avatar.size, avatar.size);
+    // c.fillStyle = "red";
+    // c.fill();
+    avatar.draw(c);
   },
 
   clearCanvas: function(canvas) {
