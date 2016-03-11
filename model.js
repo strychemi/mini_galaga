@@ -24,6 +24,5 @@ function Avatar() {
     // contrains avatar's position to never move off the grid
     this.x = Math.max(0, Math.min(this.x, view.max - this.size));
     this.y = Math.max(0, Math.min(this.y, view.max - this.size));
-    console.log(this.x, this.y);
   };
 }

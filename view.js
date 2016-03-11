@@ -5,18 +5,16 @@ var view = {
     var previousTime = 0,
       INTERVAL = 15;
 
-    // Event listener for WASD keys
-    view.keyListener();
-
     window.onload = function() {
       var canvas = $("#canvas")[0],
         c = canvas.getContext("2d");
 
+      // THE GAME LOOP BABY
       setInterval(function() {
         var currentTime = new Date().getTime().timeElapsed;
         if (previousTime === 0) previousTime = currentTime;
         timeElapsed = currentTime - previousTime;
-        controller.update();
+        view.update();
         view.render(canvas, timeElapsed, currentTime);
       }, INTERVAL);
     };
@@ -45,15 +43,22 @@ var view = {
     c.fill();
   },
 
-  keyListener: function() {
+  update: function() {
     var LEFT = 97, UP = 119, RIGHT = 100, DOWN = 115; // WASD keys
     // var LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40; // Arrow keys
 
-    $(document).on("keypress", function(e) {
-      if (e.keyCode == LEFT) controller.moveAvatar(LEFT);
-      else if (e.keyCode == RIGHT) controller.moveAvatar(RIGHT);
-      else if (e.keyCode == UP) controller.moveAvatar(UP);
-      else if (e.keyCode == DOWN) controller.moveAvatar(DOWN);
-    });
+    // $(document).on("keypress", function(e) {
+    //   if (e.keyCode == LEFT) controller.moveAvatar(LEFT);
+    //   if (e.keyCode == RIGHT) controller.moveAvatar(RIGHT);
+    //   if (e.keyCode == UP) controller.moveAvatar(UP);
+    //   if (e.keyCode == DOWN) controller.moveAvatar(DOWN);
+    // });
+
+    // Implementing key polling
+    if (key.isPressed("A")) controller.moveAvatar(LEFT);
+    if (key.isPressed("D")) controller.moveAvatar(RIGHT);
+    if (key.isPressed("W")) controller.moveAvatar(UP);
+    if (key.isPressed("S")) controller.moveAvatar(DOWN);
+
   }
 };
