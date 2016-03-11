@@ -16,6 +16,9 @@ var model = {
     var allBullets = model.bullets;
     for (var b in allBullets) {
       allBullets[b].y -= allBullets[b].dy;
+      if (allBullets[b].y <= -20) {
+        allBullets.splice(b, 1);
+      }
     }
   }
 };
