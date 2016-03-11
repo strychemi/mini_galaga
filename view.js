@@ -1,6 +1,10 @@
+// The "V" in MVC, does rendering, eventhandlers,
+// and runs appropriate controller response to those events
 var view = {
+  // Dimensions of the canvas in pixels
   max: 800,
 
+  // Initialize game loop
   init: function() {
     var previousTime = 0,
       INTERVAL = 15;
@@ -20,6 +24,7 @@ var view = {
     };
   },
 
+  // Renders the game board state on canvas
   render: function(canvas, timeElapsed, currentTime) {
     // supercharge canvas element and clean it out
     var c = canvas.getContext("2d");
@@ -36,6 +41,7 @@ var view = {
     avatar.draw(c);
   },
 
+  // Cleans out the current canvas
   clearCanvas: function(canvas) {
     var c = canvas.getContext("2d");
     c.beginPath();
@@ -44,6 +50,7 @@ var view = {
     c.fill();
   },
 
+  // Event handler implmeneted via key polling
   update: function() {
     var LEFT = 97, UP = 119, RIGHT = 100, DOWN = 115; // WASD keys
     // var LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40; // Arrow keys

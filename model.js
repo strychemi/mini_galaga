@@ -1,3 +1,4 @@
+// The "M" in MVC, acts like database for game
 var model = {
   score: 0,
   highScore: 0,
@@ -18,15 +19,17 @@ function Avatar() {
   this.dx = 5;
   this.dy = 5;
 
-  //Size and Bitmap image
+  // Size and Bitmap image
   this.size = 50;
   this.image = new Image();
   this.image.src = "images/charizard.jpg";
 
+  // Renders the avatar image on the passed context, which should be a canvas
   this.draw = function(context) {
     context.drawImage(this.image, this.x, this.y, this.size, this.size);
   };
 
+  // Updates the current position of the avatar
   this.move = function(dir) {
     var LEFT = 97, UP = 119, RIGHT = 100, DOWN = 115;
     if (dir == LEFT) this.x -= this.dx;
