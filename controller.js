@@ -13,6 +13,11 @@ var controller = {
   // Moves the avatar in the new "dir"
   moveAvatar: function(dir) {
     model.avatar.move(dir);
+  },
+
+  // Makes the avatar launch a bullet
+  avatarFireBullet: function() {
+    model.avatar.fire();
   }
 };
 

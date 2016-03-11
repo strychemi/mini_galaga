@@ -63,10 +63,13 @@ var view = {
     // });
 
     // Implementing key polling
+    // Avatar movement
     if (key.isPressed("A")) controller.moveAvatar(LEFT);
     if (key.isPressed("D")) controller.moveAvatar(RIGHT);
     if (key.isPressed("W")) controller.moveAvatar(UP);
     if (key.isPressed("S")) controller.moveAvatar(DOWN);
+    // Avatar launching fireball
+    if (key.isPressed("space")) controller.avatarFireBullet();
 
   }
 };

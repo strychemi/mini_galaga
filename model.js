@@ -15,7 +15,7 @@ function Avatar() {
   this.x = view.max / 2;
   this.y = view.max - 50;
 
-  // Movement Speed
+  // Movement Speed or step size
   this.dx = 5;
   this.dy = 5;
 
@@ -40,5 +40,28 @@ function Avatar() {
     // contrains avatar's position to never move off the grid
     this.x = Math.max(0, Math.min(this.x, view.max - this.size));
     this.y = Math.max(0, Math.min(this.y, view.max - this.size));
+  };
+
+  this.fire = function() {
+    
+  };
+}
+
+function Bullet() {
+  // Starting position
+  this.x = 0;
+  this.y = 0;
+
+  // Movement Speed or step size
+  this.dx = 10;
+  this.dy = 10;
+
+  // Size and Bitmap image
+  this.size = 5;
+  this.image = new Image();
+  this.src = "img/fireball.png";
+
+  this.draw = function(context) {
+    context.drawImage(this.image, this.x, this.y, this.size, this.size);
   };
 }
