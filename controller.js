@@ -1,4 +1,8 @@
 var controller = {
+  init: function() {
+    view.init();
+  },
+
   update: function() {
 
   },
@@ -6,9 +10,8 @@ var controller = {
   getAvatar: function() {
     return model.avatar;
   }
-
 };
 
 $(document).ready(function() {
-  view.init();
+  controller.init();
 });

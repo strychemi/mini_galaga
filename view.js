@@ -9,7 +9,13 @@ var view = {
       var canvas = $("#canvas")[0],
         c = canvas.getContext("2d");
 
-      view.render(canvas);
+      setInterval(function(){
+        var currentTime = new Date().getTime().timeElapsed;
+        if (previousTime === 0) previousTime = currentTime;
+        timeElapsed = currentTime - previousTime;
+        controller.update();
+        view.render(canvas, timeElapsed, currentTime);
+      }, INTERVAL);
     };
   },
 
@@ -23,7 +29,6 @@ var view = {
 
     // render avatar
     c.beginPath();
-    console.log(avatar.x, avatar.y, avatar.size, avatar.size);
     c.rect(avatar.x, avatar.y, avatar.size, avatar.size);
     c.fillStyle = "red";
     c.fill();
