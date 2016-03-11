@@ -3,23 +3,16 @@ var view = {
 
   init: function() {
     var previousTime = 0,
-      INTERVAL = 15,
-      LEFT = 97, UP = 119, RIGHT = 100, DOWN = 115; // WASD keys
-      // LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
+      INTERVAL = 15;
 
-    $(document).on("keypress", function(e) {
-      console.log(e.keyCode);
-      if (e.keyCode == LEFT) controller.moveAvatar(LEFT);
-      else if (e.keyCode == RIGHT) controller.moveAvatar(RIGHT);
-      else if (e.keyCode == UP) controller.moveAvatar(UP);
-      else if (e.keyCode == DOWN) controller.moveAvatar(DOWN);
-    });
+    // Event listener for WASD keys
+    view.keyListener();
 
     window.onload = function() {
       var canvas = $("#canvas")[0],
         c = canvas.getContext("2d");
 
-      setInterval(function(){
+      setInterval(function() {
         var currentTime = new Date().getTime().timeElapsed;
         if (previousTime === 0) previousTime = currentTime;
         timeElapsed = currentTime - previousTime;
@@ -50,5 +43,17 @@ var view = {
     c.rect(0,0,view.max,view.max);
     c.fillStyle = "white";
     c.fill();
+  },
+
+  keyListener: function() {
+    var LEFT = 97, UP = 119, RIGHT = 100, DOWN = 115; // WASD keys
+    // var LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40; // Arrow keys
+
+    $(document).on("keypress", function(e) {
+      if (e.keyCode == LEFT) controller.moveAvatar(LEFT);
+      else if (e.keyCode == RIGHT) controller.moveAvatar(RIGHT);
+      else if (e.keyCode == UP) controller.moveAvatar(UP);
+      else if (e.keyCode == DOWN) controller.moveAvatar(DOWN);
+    });
   }
 };
