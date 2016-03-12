@@ -45,6 +45,10 @@ var controller = {
 
   checkCollisions: function() {
     model.checkCollisions();
+  },
+
+  getStats: function() {
+    return [model.avatar.hp, model.score, model.highScore, model.totalEnemies];
   }
 };
 

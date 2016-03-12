@@ -59,7 +59,17 @@ var view = {
   },
 
   renderStats: function() {
-    
+    $(".current-stat").remove();
+    var newDiv = $("<div></div>");
+    newDiv.attr("class", "current-stat");
+    statArray = controller.getStats();
+    newDiv.text(
+      "Current Health: " + statArray[0] +
+      " Score: " + statArray[1] +
+      " High Score: " + statArray[2] +
+      " Total Enemies: " + statArray[3]
+    );
+    $(".stats").append(newDiv);
   },
 
   // Cleans out the current canvas
