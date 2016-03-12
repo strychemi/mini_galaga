@@ -41,6 +41,10 @@ var controller = {
 
   updateEnemies: function() {
     model.updateEnemies();
+  },
+
+  checkCollisions: function() {
+    model.checkCollisions();
   }
 };
 

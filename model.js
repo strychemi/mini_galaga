@@ -31,6 +31,7 @@ var model = {
 
     if (spawnRate < random) {
       model.enemies.push(new Enemy());
+      model.totalEnemies++;
       model.spawnTimer = 0;
     }
   },
@@ -47,12 +48,65 @@ var model = {
           allEnemies.splice(e, 1);
       }
     }
+  },
+
+  // Checks for collisions and processes accordingly
+  checkCollisions: function() {
+    var avatar = model.avatar;
+    var bullets = model.bullets;
+    var enemies = model.enemies;
+    var emax = enemies.length;
+    var bmax = bullets.length;
+
+    var currE, bullet;
+    for (var i = 0; i < emax; i++) {
+      // Collision between avatar and enemy
+      currE = enemies[i];
+      if (
+        (avatar.x < currE.x + currE.size && avatar.x + avatar.size > currE.x) && (avatar.y < currE.y + currE.size && avatar.y + avatar.size > currE.y)
+      ) {
+        model.enemyHitsAvatar(currE);
+        break;
+      }
+      // Collision between bullet and enemy
+      for (var j = 0; j < bmax; j++) {
+        bullet = bullets[j];
+        if (
+          (bullet.x < currE.x + currE.size && bullet.x + bullet.sizeX > currE.x) && (bullet.y < currE.y + currE.size && bullet.y + bullet.sizeY > currE.y)
+        ) {
+          model.bulletHitsEnemy(bullet, currE);
+          break;
+        }
+      }
+    }
+  },
+
+  enemyHitsAvatar: function(enemy) {
+    model.avatar.hp -= 1;
+    model.killEnemy(enemy);
+  },
+
+  bulletHitsEnemy: function(bullet, enemy) {
+    model.score++;
+    if (model.score > model.highScore) model.highScore = model.score;
+    model.killEnemy(enemy);
+    model.killBullet(bullet);
+  },
+
+  killBullet: function(bullet) {
+    var i = model.bullets.indexOf(bullet);
+    if (i >= 0) model.bullets.splice(i, 1);
+  },
+
+  killEnemy: function(enemy) {
+    var i = model.enemies.indexOf(enemy);
+    if (i >= 0) model.enemies.splice(i, 1);
   }
 };
 
 function Avatar() {
   // Avatar stats
-  this.hp = 100;
+  this.hp = 1000;
   this.damage = 1;
 
   // Position

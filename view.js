@@ -21,6 +21,7 @@ var view = {
         view.renderAvatar(canvas);
         view.renderBullets(canvas);
         view.renderEnemies(canvas);
+        view.renderStats();
       }, INTERVAL);
     };
   },
@@ -57,6 +58,10 @@ var view = {
     }
   },
 
+  renderStats: function() {
+    
+  },
+
   // Cleans out the current canvas
   clearCanvas: function(canvas) {
     var c = canvas.getContext("2d");
@@ -78,6 +83,8 @@ var view = {
     if (key.isPressed("S")) controller.updateAvatar(DOWN);
     // Update bullet locations
     if (controller.getBullets) controller.updateBullets();
+    // After updating everything, check and process any collisions
+    controller.checkCollisions();
   },
 
   fireListener: function() {
