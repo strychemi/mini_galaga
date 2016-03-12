@@ -3,10 +3,10 @@
 var view = {
   // Dimensions of the canvas in pixels
   max: 800,
-
+  previousTime: 0,
   // Initialize game loop
   init: function() {
-    var INTERVAL = 30;
+    var INTERVAL = 30; // Set pace of game, 30 ~ 30 frames per second
     // Attach eventListener for hitting spacebar for firing
     view.fireListener();
 
@@ -15,9 +15,12 @@ var view = {
         c = canvas.getContext("2d");
       // THE GAME LOOP BABY
       setInterval(function() {
-        view.update();
+        var currentTime = new Date().getTime();
+
+        view.update(currentTime);
         view.renderAvatar(canvas);
         view.renderBullets(canvas);
+        view.renderEnemies(canvas);
       }, INTERVAL);
     };
   },
@@ -44,6 +47,16 @@ var view = {
     }
   },
 
+  renderEnemies: function(canvas) {
+    var c = canvas.getContext("2d");
+    // retrieve enemy objects from controller
+    var enemies = controller.getEnemies();
+    // render enemies
+    for (var b in enemies) {
+      enemies[b].draw(c);
+    }
+  },
+
   // Cleans out the current canvas
   clearCanvas: function(canvas) {
     var c = canvas.getContext("2d");
@@ -53,16 +66,18 @@ var view = {
     c.fill();
   },
 
-  // Update movement based on key polling (so multiple keys can be pressed)
-  update: function() {
+  // Main update function
+  update: function(currentTime) {
     var LEFT = 97, UP = 119, RIGHT = 100, DOWN = 115; // WASD keys
+    controller.generateEnemy(currentTime);
+    controller.updateEnemies();
     // Avatar movement
-    if (key.isPressed("A")) controller.update(LEFT);
-    if (key.isPressed("D")) controller.update(RIGHT);
-    if (key.isPressed("W")) controller.update(UP);
-    if (key.isPressed("S")) controller.update(DOWN);
-
-    if (controller.getBullets) controller.update();
+    if (key.isPressed("A")) controller.updateAvatar(LEFT);
+    if (key.isPressed("D")) controller.updateAvatar(RIGHT);
+    if (key.isPressed("W")) controller.updateAvatar(UP);
+    if (key.isPressed("S")) controller.updateAvatar(DOWN);
+    // Update bullet locations
+    if (controller.getBullets) controller.updateBullets();
   },
 
   fireListener: function() {

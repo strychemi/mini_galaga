@@ -15,15 +15,32 @@ var controller = {
     return model.bullets;
   },
 
+  //Returns an array of enemy objects
+  getEnemies: function() {
+    return model.enemies;
+  },
+
   // Moves the avatar in the new "dir"
-  update: function(dir) {
+  updateAvatar: function(dir) {
     model.avatar.move(dir);
-    model.moveBullets();
   },
 
   // Makes the avatar launch a new bullet
   avatarFire: function() {
     model.avatarFire();
+  },
+
+  // Updates bullets location in model
+  updateBullets: function(dir) {
+    model.updateBullets();
+  },
+
+  generateEnemy: function(currentTime) {
+    model.generateEnemy(currentTime);
+  },
+
+  updateEnemies: function() {
+    model.updateEnemies();
   }
 };
 

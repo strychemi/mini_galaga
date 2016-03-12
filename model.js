@@ -5,19 +5,46 @@ var model = {
   totalEnemies: 0,
   avatar: new Avatar(),
   bullets: [],
+  enemies: [],
 
   // Creates a new bullet and adds it to the bullets array
   avatarFire: function() {
     model.bullets.push(new Bullet());
   },
 
-  // Moves all bullets up
-  moveBullets: function() {
+  // Moves all bullets up and remove any that go out of bounds
+  updateBullets: function() {
     var allBullets = model.bullets;
     for (var b in allBullets) {
       allBullets[b].y -= allBullets[b].dy;
       if (allBullets[b].y <= -20) {
         allBullets.splice(b, 1);
+      }
+    }
+  },
+
+  // Creates a new enemy and adds it to the enemies array
+  generateEnemy: function() {
+    var max = 100;
+    var spawnRate = 50; // Change this number spawn rate, lower = more
+    var random = Math.floor(Math.random() * max);
+
+    if (spawnRate < random) {
+      model.enemies.push(new Enemy());
+      model.spawnTimer = 0;
+    }
+  },
+
+  // Moves all enemies and remove any that go out of bounds
+  updateEnemies: function() {
+    var allEnemies = model.enemies, currE;
+    for (var e in allEnemies) {
+      currE = allEnemies[e];
+      currE.x +=   currE.dx;
+      currE.y +=   currE.dy;
+      if (currE.x <= -50 || currE.x >= 800 ||
+        currE.y <= -50 || currE.y >= 800) {
+          allEnemies.splice(e, 1);
       }
     }
   }
@@ -67,7 +94,7 @@ function Bullet() {
 
   // Movement Speed or step size
   this.dx = 0;
-  this.dy = 10;
+  this.dy = 20;
 
   // Size and Bitmap image
   this.sizeX = 10;
@@ -78,5 +105,26 @@ function Bullet() {
   // Renders the bullet image on the passed context, which should be a canvas
   this.draw = function(context) {
     context.drawImage(this.image, this.x, this.y, this.sizeX, this.sizeY);
+  };
+}
+
+function Enemy() {
+  // Starting position
+  this.x = Math.random() * 850 - 50;
+  this.y = -50;
+
+  // Movement Speed or step size
+  this.scalar = Math.floor(Math.random() * 2);
+  this.dx = ((Math.random() * 10) - 5) * this.scalar;
+  this.dy = (Math.random() * 10) * this.scalar;
+
+  // Size and Bitmap image
+  this.size = 50;
+  this.image = new Image();
+  this.image.src = "images/blastoise-mega.jpg";
+
+  // Renders the bullet image on the passed context, which should be a canvas
+  this.draw = function(context) {
+    context.drawImage(this.image, this.x, this.y, this.size, this.size);
   };
 }
